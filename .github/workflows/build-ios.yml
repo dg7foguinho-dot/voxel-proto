@@ -27,16 +27,13 @@ jobs:
           
           # Baixa os templates de exportação (o .tpz é um zip)
           curl -L "https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz" -o templates.tpz
-          mkdir -p "$HOME/Library/Application Support/Godot/export_templates"
-          unzip -q templates.tpz -d temp_templates
           
-          # Move os templates pro lugar certo
-          mv temp_templates/templates/* "$HOME/Library/Application Support/Godot/export_templates/"
-          mv "$HOME/Library/Application Support/Godot/export_templates/version.txt" "$HOME/Library/Application Support/Godot/export_templates/4.3.stable/"
-          
-          # O Godot procura a pasta com o nome da versão exata
+          # Cria a pasta exata que o Godot procura
           mkdir -p "$HOME/Library/Application Support/Godot/export_templates/4.3.stable"
-          mv "$HOME/Library/Application Support/Godot/export_templates/"* "$HOME/Library/Application Support/Godot/export_templates/4.3.stable/" 2>/dev/null || true
+          
+          # Extrai e move o conteúdo pra pasta certa
+          unzip -q templates.tpz -d temp_templates
+          mv temp_templates/templates/* "$HOME/Library/Application Support/Godot/export_templates/4.3.stable/"
 
       - name: Export to Xcode project
         run: |
